@@ -23,15 +23,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fetchNewsData()
+        fetchNewsData(q="tesla")
 
+        binding.btnTesla.setOnClickListener {
+            fetchNewsData(q="tesla")
+        }
 
+        binding.btnSport.setOnClickListener {
+            fetchNewsData(q="sport")
+        }
+
+        binding.btnBusiness.setOnClickListener {
+            fetchNewsData(q="business")
+        }
     }
 
-    private fun fetchNewsData() {
+    private fun fetchNewsData(q:String) {
         val apiInterface = getClient()!!.create(APIInterface::class.java)
 
-        apiInterface.getNews().enqueue(object  : Callback<NewsModel>{
+        apiInterface.getNews(q = q).enqueue(object  : Callback<NewsModel>{
             override fun onResponse(call: Call<NewsModel>, response: Response<NewsModel>) {
 
                 val model = response.body()
